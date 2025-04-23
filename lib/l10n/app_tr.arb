@@ -1,0 +1,9 @@
+{
+  "@@locale": "tr",
+  "loginTitle": "Giriş Yap",
+  "emailLabel": "E-posta",
+  "passwordLabel": "Şifre",
+  "loginButton": "Giriş",
+  "loginSuccess": "Giriş başarılı!",
+  "loginFailure": "Giriş başarısız!"
+}
