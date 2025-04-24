@@ -3,6 +3,8 @@ import 'presentation/screens/login/login_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'presentation/screens/register/register_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -25,6 +27,9 @@ class MyApp extends StatelessWidget {
         Locale('tr'),
         Locale('en'),
       ],
+      routes: {
+        '/register': (context) => const RegisterScreen(),
+      },
       home: const LoginScreen(),
     );
   }

@@ -92,6 +92,29 @@ class LoginForm extends StatelessWidget {
                       ),
               ),
             ),
+            const SizedBox(height: 12),
+            TextButton(
+              onPressed: () {
+                // TODO: Forgot password ekranına yönlendirme
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Forgot Password clicked")),
+                );
+              },
+              child: const Text(
+                'Forgot your password?',
+                style: TextStyle(color: Colors.teal),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/register');
+              },
+              child: const Text(
+                'Don\'t have an account? Sign up',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+
           ],
         );
       },
