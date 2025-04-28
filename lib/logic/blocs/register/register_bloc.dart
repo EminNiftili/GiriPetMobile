@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:giripet_mobile/core/constants/shared_preference_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:giripet_mobile/data/datasources/auth_remote_datasource.dart';
 import 'register_event.dart';
@@ -24,23 +25,44 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(state.copyWith(confirmPassword: event.confirmPassword));
     });
 
+    on<RegisterPhoneChanged>((event, emit) {
+      emit(state.copyWith(phone: event.phone));
+    });
+
     on<RegisterSubmitted>((event, emit) async {
-      emit(state.copyWith(isSubmitting: true, isFailure: false, isSuccess: false));
+      emit(state.copyWith(isLoading: true));
+      emit(state.copyWith(
+          isSubmitting: true, isFailure: false, isSuccess: false));
+
+      if (state.password.isEmpty || state.password != state.confirmPassword) {
+        emit(state.copyWith(
+            isSubmitting: false,
+            isSuccess: false,
+            isFailure: true,
+            errorMessage: 'Password does not match'));
+        emit(state.copyWith(isLoading: false));
+        return;
+      }
 
       try {
         final response = await authRemote.register(
-          name: state.name,
-          email: state.email,
-          password: state.password,
-        );
+            name: state.name,
+            email: state.email,
+            password: state.password,
+            phone: state.phone);
 
         final token = response.data['token']; // response JSON token'ı
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('access_token', token);
+        await prefs.setString(SharedPreferenceKeys.token, token);
 
         emit(state.copyWith(isSubmitting: false, isSuccess: true));
+        emit(state.copyWith(isLoading: false));
       } catch (e) {
-        emit(state.copyWith(isSubmitting: false, isFailure: true));
+        emit(state.copyWith(
+            isSubmitting: false,
+            isFailure: true,
+            errorMessage: 'Something went wrong'));
+        emit(state.copyWith(isLoading: false));
       }
     });
   }

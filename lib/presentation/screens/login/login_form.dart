@@ -95,10 +95,7 @@ class LoginForm extends StatelessWidget {
             const SizedBox(height: 12),
             TextButton(
               onPressed: () {
-                // TODO: Forgot password ekranına yönlendirme
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Forgot Password clicked")),
-                );
+                Navigator.of(context).pushNamed('/forgot_password');
               },
               child: const Text(
                 'Forgot your password?',
@@ -114,7 +111,6 @@ class LoginForm extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
-
           ],
         );
       },

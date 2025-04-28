@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:giripet_mobile/presentation/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'presentation/screens/login/login_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       ],
       routes: {
         '/register': (context) => const RegisterScreen(),
+        '/forgot_password': (context) => const ForgotPasswordScreen(),
       },
       home: const LoginScreen(),
     );

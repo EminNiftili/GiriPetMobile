@@ -8,12 +8,13 @@ class AuthRemoteDataSource {
     required String name,
     required String email,
     required String password,
+    required String phone,
   }) async {
     return _dio.post('/auth/register', data: {
       'FullName': name,
       'Email': email,
       'Password': password,
-      'PhoneNumber': password,
+      'PhoneNumber': phone,
     });
   }
 }

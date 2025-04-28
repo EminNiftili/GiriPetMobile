@@ -28,6 +28,14 @@ class RegisterPasswordChanged extends RegisterEvent {
   List<Object> get props => [password];
 }
 
+class RegisterPhoneChanged extends RegisterEvent {
+  final String phone;
+  const RegisterPhoneChanged(this.phone);
+
+  @override
+  List<Object> get props => [phone];
+}
+
 class RegisterConfirmPasswordChanged extends RegisterEvent {
   final String confirmPassword;
   const RegisterConfirmPasswordChanged(this.confirmPassword);
