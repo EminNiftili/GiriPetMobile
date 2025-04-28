@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class EditProfileState extends Equatable {
   final bool isFailure;
+  final bool isSuccess;
   final bool isLoading;
   final bool isEditing;
   final String name;
@@ -10,6 +11,7 @@ class EditProfileState extends Equatable {
 
   const EditProfileState({
     required this.isFailure,
+    required this.isSuccess,
     required this.isLoading,
     required this.isEditing,
     required this.name,
@@ -19,6 +21,7 @@ class EditProfileState extends Equatable {
 
   factory EditProfileState.initial() => EditProfileState(
         isFailure: false,
+        isSuccess: false,
         isLoading: false,
         isEditing: false,
         name: '',
@@ -28,6 +31,7 @@ class EditProfileState extends Equatable {
 
   EditProfileState copyWith({
     bool? isFailure,
+    bool? isSuccess,
     bool? isLoading,
     bool? isEditing,
     String? name,
@@ -36,6 +40,7 @@ class EditProfileState extends Equatable {
   }) {
     return EditProfileState(
       isFailure: isFailure ?? this.isFailure,
+      isSuccess: isSuccess ?? this.isSuccess,
       isLoading: isLoading ?? this.isLoading,
       isEditing: isEditing ?? this.isEditing,
       name: name ?? this.name,
@@ -46,5 +51,5 @@ class EditProfileState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [isFailure, isLoading, isEditing, name, email, phone];
+      [isFailure, isSuccess, isLoading, isEditing, name, email, phone];
 }

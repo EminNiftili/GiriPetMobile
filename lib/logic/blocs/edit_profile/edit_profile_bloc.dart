@@ -11,8 +11,19 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   EditProfileBloc() : super(EditProfileState.initial()) {
     _userDataSource = UserDataSource();
 
+    on<ProfileInfoChanged>((event, emit) {
+      if(event.fullName != null){
+        emit(state.copyWith(name: event.fullName));
+      }
+      else if(event.phoneNumber != null){
+        emit(state.copyWith(phone: event.phoneNumber));
+      }
+    });
+
     on<EditActionEvent>(_onEditAction);
+
     on<LoadProfileRequested>(_onLoadProfileRequested);
+
     on<ToggleEditing>((event, emit) {
       emit(state.copyWith(isEditing: !state.isEditing));
     });
@@ -26,12 +37,12 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       var isSuccess = await _userDataSource.update(
           id: user!.id, fullName: state.name, phone: state.phone);
       if (isSuccess) {
-        emit(state.copyWith(isFailure: false));
+        emit(state.copyWith(isFailure: false, isSuccess: true));
       } else {
-        emit(state.copyWith(isFailure: true));
+        emit(state.copyWith(isFailure: true, isSuccess: false));
       }
     } else {
-      emit(state.copyWith(isFailure: true));
+      emit(state.copyWith(isFailure: true, isSuccess: false));
     }
   }
 

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:giripet_mobile/core/constants/shared_preference_keys.dart';
 import 'package:giripet_mobile/logic/blocs/profile_menu/profile_menu_bloc.dart';
 import 'package:giripet_mobile/logic/blocs/profile_menu/profile_menu_event.dart';
 import 'package:giripet_mobile/logic/blocs/profile_menu/profile_menu_state.dart';
+import 'package:giripet_mobile/presentation/screens/login/login_screen.dart';
 import 'package:giripet_mobile/presentation/screens/profile_menu/profile_menu_section.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileMenuScreen extends StatelessWidget {
   const ProfileMenuScreen({super.key});
@@ -61,8 +64,14 @@ class ProfileMenuScreen extends StatelessWidget {
                   ProfileMenuSection(
                     icon: Icons.person_outline,
                     title: 'Şəxsi Məlumatlar',
-                    onTap: () {
-                      Navigator.of(context).pushNamed('/edit_profile');
+                    onTap: () async {
+                      final result = await Navigator.of(context).pushNamed(
+                          '/edit_profile');
+
+                      if (result == true) {
+                        context.read<ProfileMenuBloc>().add(
+                            ProfileMenuInitialized());
+                      }
                     },
                   ),
                   const Divider(),
@@ -84,7 +93,15 @@ class ProfileMenuScreen extends StatelessWidget {
                   ProfileMenuSection(
                     icon: Icons.logout,
                     title: 'Çıxış Et',
-                    onTap: () {},
+                    onTap: () async {
+                      final sharedPref = await SharedPreferences.getInstance();
+                      sharedPref.remove(SharedPreferenceKeys.token);
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()),
+                            (route) => false,
+                      );
+                    },
                     isLogout: true,
                   ),
                   const Divider(),

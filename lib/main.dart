@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/register': (context) => const RegisterScreen(),
         '/forgot_password': (context) => const ForgotPasswordScreen(),
-        '/edit_profile': (context) => const EditProfileScreen(),
+        '/edit_profile': (context) => EditProfileScreen(),
       },
       home: FutureBuilder<bool>(
         future: hasToken(),

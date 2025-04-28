@@ -29,7 +29,7 @@ class UserDataSource {
         'fullName': fullName,
         'phoneNumber': phone,
       });
-      return response.statusCode != HttpStatus.NO_CONTENT;
+      return response.statusCode == HttpStatus.NO_CONTENT;
     } catch (e) {
       return false;
     }
