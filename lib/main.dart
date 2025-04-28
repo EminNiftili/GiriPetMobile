@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:giripet_mobile/core/constants/shared_preference_keys.dart';
 import 'package:giripet_mobile/data/datasources/user_datasource.dart';
 import 'package:giripet_mobile/presentation/routes/bottom_navigation_screen.dart';
+import 'package:giripet_mobile/presentation/screens/edit_profile/edit_profile_screen.dart';
 import 'package:giripet_mobile/presentation/screens/forgot_password_screen/forgot_password_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'presentation/screens/login/login_screen.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/register': (context) => const RegisterScreen(),
         '/forgot_password': (context) => const ForgotPasswordScreen(),
+        '/edit_profile': (context) => const EditProfileScreen(),
       },
       home: FutureBuilder<bool>(
         future: hasToken(),

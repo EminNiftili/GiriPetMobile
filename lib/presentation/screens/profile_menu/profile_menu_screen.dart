@@ -58,34 +58,41 @@ class ProfileMenuScreen extends StatelessWidget {
                   const SizedBox(height: 32),
 
                   // Menu Sections
-                  const ProfileMenuSection(
+                  ProfileMenuSection(
                     icon: Icons.person_outline,
                     title: 'Şəxsi Məlumatlar',
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/edit_profile');
+                    },
                   ),
                   const Divider(),
 
-                  const ProfileMenuSection(
+                  ProfileMenuSection(
                     icon: Icons.lock_outline,
                     title: 'Şifrə Dəyişdir',
+                    onTap: () {},
                   ),
                   const Divider(),
 
-                  const ProfileMenuSection(
+                  ProfileMenuSection(
                     icon: Icons.language,
                     title: 'Dil Dəyişdir',
+                    onTap: () {},
                   ),
                   const Divider(),
 
-                  const ProfileMenuSection(
+                  ProfileMenuSection(
                     icon: Icons.logout,
                     title: 'Çıxış Et',
+                    onTap: () {},
                     isLogout: true,
                   ),
                   const Divider(),
 
-                  const ProfileMenuSection(
+                  ProfileMenuSection(
                     icon: Icons.delete_forever,
                     title: 'Hesabı Sil',
+                    onTap: () {},
                     isDanger: true,
                   ),
 

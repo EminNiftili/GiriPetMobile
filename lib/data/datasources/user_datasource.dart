@@ -8,10 +8,30 @@ class UserDataSource {
   final Dio _dio = DioClient().client;
 
   Future<User?> me() async {
-    var response = await _dio.get('/users/me');
-    if (response.statusCode != HttpStatus.OK) {
+    try {
+      var response = await _dio.get('/users/me');
+      if (response.statusCode != HttpStatus.OK) {
+        return null;
+      }
+      return User.fromJson(response.data);
+    } catch (e) {
       return null;
     }
-    return User.fromJson(response.data);
+  }
+
+  Future<bool> update(
+      {required int id,
+      required String fullName,
+      required String phone}) async {
+    try {
+      var response = await _dio.put('/users', data: {
+        'id': id,
+        'fullName': fullName,
+        'phoneNumber': phone,
+      });
+      return response.statusCode != HttpStatus.NO_CONTENT;
+    } catch (e) {
+      return false;
+    }
   }
 }

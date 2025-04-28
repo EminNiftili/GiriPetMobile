@@ -5,11 +5,13 @@ class ProfileMenuSection extends StatelessWidget {
   final String title;
   final bool isLogout;
   final bool isDanger;
+  final Function() onTap;
 
   const ProfileMenuSection({
     super.key,
     required this.icon,
     required this.title,
+    required this.onTap,
     this.isLogout = false,
     this.isDanger = false,
   });
@@ -27,9 +29,7 @@ class ProfileMenuSection extends StatelessWidget {
         style: TextStyle(color: textColor),
       ),
       trailing: const Icon(Icons.chevron_right),
-      onTap: () {
-        // TODO: Navigasiya edəcəyik
-      },
+      onTap: onTap,
     );
   }
 }
