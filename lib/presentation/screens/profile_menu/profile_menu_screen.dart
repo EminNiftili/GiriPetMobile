@@ -8,6 +8,7 @@ import 'package:giripet_mobile/logic/blocs/profile_menu/profile_menu_event.dart'
 import 'package:giripet_mobile/logic/blocs/profile_menu/profile_menu_state.dart';
 import 'package:giripet_mobile/presentation/screens/login/login_screen.dart';
 import 'package:giripet_mobile/presentation/screens/profile_menu/profile_menu_section.dart';
+import 'package:giripet_mobile/presentation/widgets/loading_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileMenuScreen extends StatelessWidget {
@@ -34,112 +35,109 @@ class ProfileMenuScreen extends StatelessWidget {
         },
         child: BlocBuilder<ProfileMenuBloc, ProfileMenuState>(
           builder: (context, state) {
-            if (state.isLoading) {
-              return const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
-            }
-
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text('Profile'),
-                centerTitle: true,
-              ),
-              body: SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Profile section
-                    Row(
+            return LoadingOverlay(
+                isLoading: state.isLoading,
+                child: Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Profile'),
+                    centerTitle: true,
+                  ),
+                  body: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CircleAvatar(
-                          radius: 35,
-                          child: Icon(Icons.person, size: 35),
-                        ),
-                        const SizedBox(width: 16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        // Profile section
+                        Row(
                           children: [
-                            Text(
-                              state.userName,
-                              style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            const CircleAvatar(
+                              radius: 35,
+                              child: Icon(Icons.person, size: 35),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              state.email,
-                              style: const TextStyle(color: Colors.grey),
+                            const SizedBox(width: 16),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  state.userName,
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  state.email,
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
+                              ],
                             ),
                           ],
                         ),
+                        const SizedBox(height: 32),
+
+                        // Menu Sections
+                        ProfileMenuSection(
+                          icon: Icons.person_outline,
+                          title: 'Şəxsi Məlumatlar',
+                          onTap: () async {
+                            final result = await Navigator.of(context)
+                                .pushNamed('/edit_profile');
+
+                            if (result == true) {
+                              context
+                                  .read<ProfileMenuBloc>()
+                                  .add(ProfileMenuInitialized());
+                            }
+                          },
+                        ),
+                        const Divider(),
+
+                        ProfileMenuSection(
+                          icon: Icons.lock_outline,
+                          title: 'Şifrə Dəyişdir',
+                          onTap: () {},
+                        ),
+                        const Divider(),
+
+                        ProfileMenuSection(
+                          icon: Icons.language,
+                          title: 'Dil Dəyişdir',
+                          onTap: () {},
+                        ),
+                        const Divider(),
+
+                        ProfileMenuSection(
+                          icon: Icons.logout,
+                          title: 'Çıxış Et',
+                          onTap: () {
+                            logout(context);
+                          },
+                          isLogout: true,
+                        ),
+                        const Divider(),
+
+                        ProfileMenuSection(
+                          icon: Icons.delete_forever,
+                          title: 'Hesabı Sil',
+                          onTap: () {
+                            context
+                                .read<ProfileMenuBloc>()
+                                .add(DeleteAccountEvent());
+                          },
+                          isDanger: true,
+                        ),
+
+                        const SizedBox(height: 32),
+                        const Text(
+                          'Mənim Heyvanlarım',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
                       ],
                     ),
-                    const SizedBox(height: 32),
-
-                    // Menu Sections
-                    ProfileMenuSection(
-                      icon: Icons.person_outline,
-                      title: 'Şəxsi Məlumatlar',
-                      onTap: () async {
-                        final result = await Navigator.of(context)
-                            .pushNamed('/edit_profile');
-
-                        if (result == true) {
-                          context
-                              .read<ProfileMenuBloc>()
-                              .add(ProfileMenuInitialized());
-                        }
-                      },
-                    ),
-                    const Divider(),
-
-                    ProfileMenuSection(
-                      icon: Icons.lock_outline,
-                      title: 'Şifrə Dəyişdir',
-                      onTap: () {},
-                    ),
-                    const Divider(),
-
-                    ProfileMenuSection(
-                      icon: Icons.language,
-                      title: 'Dil Dəyişdir',
-                      onTap: () {},
-                    ),
-                    const Divider(),
-
-                    ProfileMenuSection(
-                      icon: Icons.logout,
-                      title: 'Çıxış Et',
-                      onTap: () {
-                        logout(context);
-                      },
-                      isLogout: true,
-                    ),
-                    const Divider(),
-
-                    ProfileMenuSection(
-                      icon: Icons.delete_forever,
-                      title: 'Hesabı Sil',
-                      onTap: () {
-                        context
-                            .read<ProfileMenuBloc>()
-                            .add(DeleteAccountEvent());
-                      },
-                      isDanger: true,
-                    ),
-
-                    const SizedBox(height: 32),
-                    const Text(
-                      'Mənim Heyvanlarım',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                ),
-              ),
-            );
+                  ),
+                ));
           },
         ),
       ),
