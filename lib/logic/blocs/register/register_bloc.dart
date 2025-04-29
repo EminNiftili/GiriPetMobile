@@ -45,22 +45,34 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       }
 
       try {
-        final response = await authRemote.register(
+        final token = await authRemote.register(
             name: state.name,
             email: state.email,
             password: state.password,
             phone: state.phone);
-
-        final token = response.data['token']; // response JSON token'ı
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString(SharedPreferenceKeys.token, token);
-
-        emit(state.copyWith(isSubmitting: false, isSuccess: true));
-        emit(state.copyWith(isLoading: false));
+        if (token != null) {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString(SharedPreferenceKeys.token, token);
+          emit(state.copyWith(
+            isSubmitting: false,
+            isSuccess: true,
+            isFailure: false,
+            isLoading: false,
+          ));
+        } else {
+          emit(state.copyWith(
+            isSubmitting: false,
+            isSuccess: false,
+            isFailure: true,
+            isLoading: false,
+          ));
+        }
       } catch (e) {
         emit(state.copyWith(
+            isLoading: false,
             isSubmitting: false,
             isFailure: true,
+            isSuccess: false,
             errorMessage: 'Something went wrong'));
         emit(state.copyWith(isLoading: false));
       }

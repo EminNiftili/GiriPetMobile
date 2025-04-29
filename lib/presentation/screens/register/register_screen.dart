@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:giripet_mobile/logic/blocs/register/register_bloc.dart';
 import 'package:giripet_mobile/logic/blocs/register/register_event.dart';
 import 'package:giripet_mobile/logic/blocs/register/register_state.dart';
+import 'package:giripet_mobile/presentation/routes/bottom_navigation_screen.dart';
 import 'package:giripet_mobile/presentation/widgets/loading_overlay.dart';
 import 'register_form.dart';
 
@@ -14,8 +15,6 @@ class RegisterScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => RegisterBloc(),
       child: BlocListener<RegisterBloc, RegisterState>(
-        listenWhen: (previous, current) =>
-            previous.isFailure != current.isFailure,
         listener: (context, state) {
           if (state.isFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -24,8 +23,13 @@ class RegisterScreen extends StatelessWidget {
                 backgroundColor: Colors.red,
               ),
             );
-          } else {
-            Navigator.of(context).pop();
+          }
+          if (state.isSuccess) {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => const BottomNavigationController()),
+              (route) => false,
+            );
           }
         },
         child: BlocBuilder<RegisterBloc, RegisterState>(
