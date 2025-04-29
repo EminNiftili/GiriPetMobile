@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class ProfileMenuState extends Equatable {
   final bool isLoading;
+  final bool isDeleted;
   final String userName;
   final String email;
 
@@ -9,9 +10,11 @@ class ProfileMenuState extends Equatable {
     required this.isLoading,
     required this.userName,
     required this.email,
+    required this.isDeleted,
   });
 
   factory ProfileMenuState.initial() => const ProfileMenuState(
+        isDeleted: false,
         isLoading: false,
         userName: '',
         email: '',
@@ -19,10 +22,12 @@ class ProfileMenuState extends Equatable {
 
   ProfileMenuState copyWith({
     bool? isLoading,
+    bool? isDeleted,
     String? userName,
     String? email,
   }) {
     return ProfileMenuState(
+      isDeleted: isDeleted ?? this.isDeleted,
       isLoading: isLoading ?? this.isLoading,
       userName: userName ?? this.userName,
       email: email ?? this.email,
@@ -30,5 +35,5 @@ class ProfileMenuState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [isLoading, userName, email];
+  List<Object?> get props => [isDeleted, isLoading, userName, email];
 }

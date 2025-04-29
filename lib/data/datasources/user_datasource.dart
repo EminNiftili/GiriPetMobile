@@ -34,4 +34,13 @@ class UserDataSource {
       return false;
     }
   }
+
+  Future<bool> deleteAccount({required int id}) async {
+    try {
+      var response = await _dio.delete('/users?id=${id}');
+      return response.statusCode == HttpStatus.NO_CONTENT;
+    } catch (e) {
+      return false;
+    }
+  }
 }

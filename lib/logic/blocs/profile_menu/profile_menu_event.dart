@@ -8,3 +8,5 @@ abstract class ProfileMenuEvent extends Equatable {
 }
 
 class ProfileMenuInitialized extends ProfileMenuEvent {}
+
+class DeleteAccountEvent extends ProfileMenuEvent {}
