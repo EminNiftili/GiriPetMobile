@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:giripet_mobile/presentation/screens/dashboard/dashboard_screen.dart';
 import 'package:giripet_mobile/presentation/screens/login/login_screen.dart';
+import 'package:giripet_mobile/presentation/screens/pets/pets_screen.dart';
 import 'package:giripet_mobile/presentation/screens/profile_menu/profile_menu_screen.dart';
 import 'package:giripet_mobile/presentation/screens/register/register_screen.dart';
 
@@ -18,7 +19,7 @@ class _BottomNavigationControllerState
 
   final List<Widget> _screens = const [
     DashboardScreen(),
-    RegisterScreen(),
+    PetsScreen(),
     ProfileMenuScreen(),
   ];
 
